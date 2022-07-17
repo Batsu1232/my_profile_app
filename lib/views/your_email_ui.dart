@@ -9,6 +9,7 @@ class EmailUI extends StatefulWidget {
 }
 
 class _EmailUIState extends State<EmailUI> {
+  TextEditingController emailCtrl = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +19,14 @@ class _EmailUIState extends State<EmailUI> {
           'Add/Edit Email',
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+          ),
+        ),
       ),
       body: Center(
         child: Column(
@@ -38,6 +47,7 @@ class _EmailUIState extends State<EmailUI> {
                 right: 50,
               ),
               child: TextField(
+                controller: emailCtrl,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -52,7 +62,33 @@ class _EmailUIState extends State<EmailUI> {
               height: 25,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (emailCtrl.text.trim().length == 0) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          'คำเตือน',
+                        ),
+                        content: Text(
+                          'ป้อนอีเมล์ของคุณด้วย',
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'ตกลง',
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {}
+              },
               child: Text(
                 "บันทึก",
                 style: TextStyle(

@@ -9,6 +9,8 @@ class NameUI extends StatefulWidget {
 }
 
 class _NameUIState extends State<NameUI> {
+  TextEditingController nameCtrl = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +48,7 @@ class _NameUIState extends State<NameUI> {
                 right: 50,
               ),
               child: TextField(
+                controller: nameCtrl,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'ป้อนชื่อ',
@@ -59,7 +62,33 @@ class _NameUIState extends State<NameUI> {
               height: 25,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (nameCtrl.text.trim().length == 0) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          'คำเตือน',
+                        ),
+                        content: Text(
+                          'ป้อนชื่อของคุณด้วย',
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'ตกลง',
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {}
+              },
               child: Text(
                 "บันทึก",
                 style: TextStyle(

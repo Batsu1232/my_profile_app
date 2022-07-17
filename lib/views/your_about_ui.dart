@@ -9,6 +9,7 @@ class AboutUI extends StatefulWidget {
 }
 
 class _AboutUIState extends State<AboutUI> {
+  TextEditingController aboutCtrl = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +19,14 @@ class _AboutUIState extends State<AboutUI> {
           'Add/Edit About',
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+          ),
+        ),
       ),
       body: Center(
         child: Column(
@@ -38,6 +47,7 @@ class _AboutUIState extends State<AboutUI> {
                 right: 50,
               ),
               child: TextField(
+                controller: aboutCtrl,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'ป้อนข้อมูล',
@@ -51,7 +61,33 @@ class _AboutUIState extends State<AboutUI> {
               height: 25,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (aboutCtrl.text.trim().length == 0) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          'คำเตือน',
+                        ),
+                        content: Text(
+                          'ป้อนข้อมูลต่างๆของคุณด้วย',
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'ตกลง',
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {}
+              },
               child: Text(
                 "บันทึก",
                 style: TextStyle(

@@ -9,6 +9,7 @@ class PhoneUI extends StatefulWidget {
 }
 
 class _PhoneUIState extends State<PhoneUI> {
+  TextEditingController phoneCtrl = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +19,14 @@ class _PhoneUIState extends State<PhoneUI> {
           'Add/Edit Phone',
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+          ),
+        ),
       ),
       body: Center(
         child: Column(
@@ -38,6 +47,7 @@ class _PhoneUIState extends State<PhoneUI> {
                 right: 50,
               ),
               child: TextField(
+                controller: phoneCtrl,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -52,7 +62,33 @@ class _PhoneUIState extends State<PhoneUI> {
               height: 25,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (phoneCtrl.text.trim().length == 0) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          'คำเตือน',
+                        ),
+                        content: Text(
+                          'ป้อนเบอร์โทรของคุณด้วย',
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'ตกลง',
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {}
+              },
               child: Text(
                 "บันทึก",
                 style: TextStyle(
