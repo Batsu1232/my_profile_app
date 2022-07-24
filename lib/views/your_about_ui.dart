@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AboutUI extends StatefulWidget {
   const AboutUI({Key? key}) : super(key: key);
@@ -10,6 +11,11 @@ class AboutUI extends StatefulWidget {
 
 class _AboutUIState extends State<AboutUI> {
   TextEditingController aboutCtrl = TextEditingController(text: '');
+  Future addYourAboutToSF() async {
+    SharedPreferences prefer = await SharedPreferences.getInstance();
+    prefer.setString('yourabout', aboutCtrl.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +41,7 @@ class _AboutUIState extends State<AboutUI> {
               height: 50,
             ),
             Text(
-              "ป้อนชื่อของคุณ",
+              "ป้อนข้อมูลต่างๆของคุณ",
               style: GoogleFonts.itim(
                 fontSize: 35.0,
                 color: Colors.greenAccent,
@@ -86,7 +92,11 @@ class _AboutUIState extends State<AboutUI> {
                       );
                     },
                   );
-                } else {}
+                } else {
+                  addYourAboutToSF().then((value) {
+                    Navigator.pop(context);
+                  });
+                }
               },
               child: Text(
                 "บันทึก",

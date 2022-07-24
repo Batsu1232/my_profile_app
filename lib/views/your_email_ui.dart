@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmailUI extends StatefulWidget {
   const EmailUI({Key? key}) : super(key: key);
@@ -10,6 +11,11 @@ class EmailUI extends StatefulWidget {
 
 class _EmailUIState extends State<EmailUI> {
   TextEditingController emailCtrl = TextEditingController(text: '');
+  Future addYourEmailToSF() async {
+    SharedPreferences prefer = await SharedPreferences.getInstance();
+    prefer.setString('youremail', emailCtrl.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +41,7 @@ class _EmailUIState extends State<EmailUI> {
               height: 50,
             ),
             Text(
-              "ป้อนชื่อของคุณ",
+              "ป้อนอีเมล์ของคุณ",
               style: GoogleFonts.itim(
                 fontSize: 35.0,
                 color: Colors.indigo,
@@ -87,7 +93,11 @@ class _EmailUIState extends State<EmailUI> {
                       );
                     },
                   );
-                } else {}
+                } else {
+                  addYourEmailToSF().then((value) {
+                    Navigator.pop(context);
+                  });
+                }
               },
               child: Text(
                 "บันทึก",

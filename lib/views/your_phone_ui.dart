@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PhoneUI extends StatefulWidget {
   const PhoneUI({Key? key}) : super(key: key);
@@ -10,6 +11,11 @@ class PhoneUI extends StatefulWidget {
 
 class _PhoneUIState extends State<PhoneUI> {
   TextEditingController phoneCtrl = TextEditingController(text: '');
+  Future addYourPhoneToSF() async {
+    SharedPreferences prefer = await SharedPreferences.getInstance();
+    prefer.setString('yourphone', phoneCtrl.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +41,7 @@ class _PhoneUIState extends State<PhoneUI> {
               height: 50,
             ),
             Text(
-              "ป้อนชื่อของคุณ",
+              "ป้อนเบอร์โทรศัพท์ของคุณ",
               style: GoogleFonts.itim(
                 fontSize: 35.0,
                 color: Colors.pinkAccent,
@@ -87,7 +93,11 @@ class _PhoneUIState extends State<PhoneUI> {
                       );
                     },
                   );
-                } else {}
+                } else {
+                  addYourPhoneToSF().then((value) {
+                    Navigator.pop(context);
+                  });
+                }
               },
               child: Text(
                 "บันทึก",

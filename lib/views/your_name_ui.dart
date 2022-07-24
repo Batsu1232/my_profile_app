@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NameUI extends StatefulWidget {
   const NameUI({Key? key}) : super(key: key);
@@ -10,6 +11,10 @@ class NameUI extends StatefulWidget {
 
 class _NameUIState extends State<NameUI> {
   TextEditingController nameCtrl = TextEditingController(text: '');
+  Future addYourNameToSF() async {
+    SharedPreferences prefer = await SharedPreferences.getInstance();
+    prefer.setString('yourname', nameCtrl.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +92,11 @@ class _NameUIState extends State<NameUI> {
                       );
                     },
                   );
-                } else {}
+                } else {
+                  addYourNameToSF().then((value) {
+                    Navigator.pop(context);
+                  });
+                }
               },
               child: Text(
                 "บันทึก",
